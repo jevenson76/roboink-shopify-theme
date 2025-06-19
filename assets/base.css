@@ -1,6 +1,20 @@
 /* Base styles for RoboInk Steampunk Theme */
 
 :root {
+  /* Core Colors - Fallbacks for theme settings */
+  --color-navy: #1a1a2e;
+  --color-parchment: #f4e8d0;
+  --color-copper: #b87333;
+  --color-brass: #d4a574;
+  --color-teal: #5a7a7a;
+  --color-border: #e5e5e5;
+  --color-text: #333333;
+  --color-text-light: #666666;
+  
+  /* Typography */
+  --font-heading: 'Roboto Slab', serif;
+  --font-body: 'Roboto', sans-serif;
+  
   /* Spacing */
   --spacing-xs: 0.5rem;
   --spacing-sm: 1rem;
@@ -18,6 +32,19 @@
   --shadow-md: 0 4px 6px rgba(26, 26, 46, 0.1);
   --shadow-lg: 0 10px 15px rgba(26, 26, 46, 0.15);
   --shadow-xl: 0 20px 25px rgba(26, 26, 46, 0.2);
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 2rem;
+  }
 }
 
 /* Global styles */
