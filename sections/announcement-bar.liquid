@@ -1,0 +1,115 @@
+{% comment %}
+  Announcement bar section for promotions/notices
+{% endcomment %}
+
+{% if section.settings.show_announcement %}
+  <div class="announcement-bar" data-section-id="{{ section.id }}">
+    <div class="container">
+      <div class="announcement-content">
+        {% if section.settings.announcement_text != blank %}
+          <p class="announcement-text">{{ section.settings.announcement_text }}</p>
+        {% endif %}
+        
+        {% if section.settings.announcement_link != blank %}
+          <a href="{{ section.settings.announcement_link }}" class="announcement-link">
+            {{ section.settings.announcement_link_text | default: 'Learn More' }}
+          </a>
+        {% endif %}
+      </div>
+      
+      {% if section.settings.show_close %}
+        <button class="announcement-close" onclick="this.parentElement.style.display='none'">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      {% endif %}
+    </div>
+  </div>
+{% endif %}
+
+<style>
+  .announcement-bar {
+    background: var(--color-copper);
+    color: white;
+    padding: 0.75rem 0;
+    text-align: center;
+    position: relative;
+  }
+  
+  .announcement-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  .announcement-text {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+  
+  .announcement-link {
+    color: white;
+    text-decoration: underline;
+    font-weight: 600;
+  }
+  
+  .announcement-close {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0.25rem;
+  }
+  
+  @media (max-width: 768px) {
+    .announcement-content {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "label": "Show announcement bar",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement text",
+      "default": "Free shipping on orders over $50!"
+    },
+    {
+      "type": "url",
+      "id": "announcement_link",
+      "label": "Announcement link"
+    },
+    {
+      "type": "text",
+      "id": "announcement_link_text",
+      "label": "Link text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_close",
+      "label": "Show close button",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

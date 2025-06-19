@@ -1,0 +1,147 @@
+/* Header Section Styles */
+.site-header {
+  background: var(--color-parchment);
+  border-bottom: 2px solid var(--color-navy);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+}
+
+.header-logo {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--color-navy);
+  text-decoration: none;
+}
+
+.header-logo:hover {
+  color: var(--color-copper);
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 2rem;
+}
+
+.nav-item {
+  position: relative;
+}
+
+.nav-link {
+  color: var(--color-navy);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color var(--transition-fast);
+  padding: 0.5rem 0;
+}
+
+.nav-link:hover {
+  color: var(--color-copper);
+}
+
+/* Dropdown Styles */
+.nav-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: 0.25rem;
+  box-shadow: var(--shadow-lg);
+  min-width: 200px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all var(--transition-fast);
+}
+
+.nav-item:hover .nav-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-link {
+  display: block;
+  padding: 0.75rem 1rem;
+  color: var(--color-navy);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.dropdown-link:hover {
+  background: var(--color-parchment);
+  color: var(--color-copper);
+}
+
+/* Header Actions */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.header-search-toggle,
+.header-cart-toggle {
+  background: none;
+  border: none;
+  color: var(--color-navy);
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: color var(--transition-fast);
+}
+
+.header-search-toggle:hover,
+.header-cart-toggle:hover {
+  color: var(--color-copper);
+}
+
+.cart-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: var(--color-copper);
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .nav-menu {
+    display: none;
+  }
+  
+  .mobile-menu-toggle {
+    display: block;
+    background: none;
+    border: none;
+    color: var(--color-navy);
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+}
