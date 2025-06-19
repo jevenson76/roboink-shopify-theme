@@ -1,0 +1,230 @@
+{% comment %}
+  Cart template - displays shopping cart
+{% endcomment %}
+
+<div class="cart-template">
+  <div class="container">
+    <h1>Your Cart</h1>
+    
+    {% if cart.item_count > 0 %}
+      <form action="/cart" method="post" novalidate>
+        <table class="cart-table">
+          <thead>
+            <tr>
+              <th colspan="2">Product</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in cart.items %}
+              <tr class="cart-item">
+                <td class="cart-item-image">
+                  <a href="{{ item.url }}">
+                    <img src="{{ item | img_url: '100x100' }}" alt="{{ item.title | escape }}">
+                  </a>
+                </td>
+                <td class="cart-item-details">
+                  <a href="{{ item.url }}">{{ item.product.title }}</a>
+                  {% unless item.variant.title == 'Default Title' %}
+                    <div class="cart-item-variant">{{ item.variant.title }}</div>
+                  {% endunless %}
+                  <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" class="cart-item-remove">Remove</a>
+                </td>
+                <td class="cart-item-price">
+                  {{ item.price | money }}
+                </td>
+                <td class="cart-item-quantity">
+                  <input type="number" name="updates[]" value="{{ item.quantity }}" min="0">
+                </td>
+                <td class="cart-item-total">
+                  {{ item.line_price | money }}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="4" class="cart-subtotal-label">Subtotal</td>
+              <td class="cart-subtotal">{{ cart.total_price | money }}</td>
+            </tr>
+          </tfoot>
+        </table>
+        
+        <div class="cart-footer">
+          <div class="cart-notes">
+            <label for="CartNote">Order notes</label>
+            <textarea name="note" id="CartNote">{{ cart.note }}</textarea>
+          </div>
+          
+          <div class="cart-actions">
+            <button type="submit" name="update" class="btn btn-secondary">Update Cart</button>
+            <button type="submit" name="checkout" class="btn btn-primary">Checkout</button>
+          </div>
+        </div>
+      </form>
+      
+      <!-- Printful Notice -->
+      <div class="pod-notice">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+        <p><strong>Production Time:</strong> Items are made-to-order. Please allow 2-7 business days for production plus shipping time.</p>
+      </div>
+    {% else %}
+      <div class="empty-cart">
+        <p>Your cart is empty</p>
+        <a href="/collections/all" class="btn btn-primary">Continue Shopping</a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+  .cart-template {
+    padding: 4rem 0;
+    min-height: 50vh;
+  }
+  
+  .cart-template h1 {
+    font-size: 2.5rem;
+    color: var(--color-navy);
+    margin-bottom: 2rem;
+  }
+  
+  .cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+  }
+  
+  .cart-table th {
+    text-align: left;
+    padding: 1rem;
+    border-bottom: 2px solid var(--color-navy);
+    color: var(--color-navy);
+    font-weight: 600;
+  }
+  
+  .cart-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+  
+  .cart-item-image img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 0.25rem;
+  }
+  
+  .cart-item-variant {
+    font-size: 0.875rem;
+    color: var(--color-text-light);
+    margin-top: 0.25rem;
+  }
+  
+  .cart-item-remove {
+    font-size: 0.875rem;
+    color: var(--color-copper);
+    text-decoration: none;
+    margin-top: 0.5rem;
+    display: inline-block;
+  }
+  
+  .cart-item-quantity input {
+    width: 60px;
+    padding: 0.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.25rem;
+    text-align: center;
+  }
+  
+  .cart-subtotal-label {
+    text-align: right;
+    font-weight: 600;
+  }
+  
+  .cart-subtotal {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-copper);
+  }
+  
+  .cart-footer {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  
+  .cart-notes label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+  
+  .cart-notes textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.25rem;
+  }
+  
+  .cart-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-end;
+  }
+  
+  .btn {
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 0.25rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+  }
+  
+  .btn-primary {
+    background: var(--color-copper);
+    color: white;
+  }
+  
+  .btn-secondary {
+    background: white;
+    color: var(--color-navy);
+    border: 2px solid var(--color-navy);
+  }
+  
+  .pod-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(184, 115, 51, 0.1);
+    border-left: 3px solid var(--color-copper);
+    border-radius: 0.25rem;
+    margin-top: 2rem;
+  }
+  
+  .pod-notice svg {
+    flex-shrink: 0;
+    color: var(--color-copper);
+    margin-top: 0.125rem;
+  }
+  
+  .empty-cart {
+    text-align: center;
+    padding: 4rem 0;
+  }
+  
+  .empty-cart p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+  }
+</style>
