@@ -47,12 +47,12 @@ jobs:
         # Create a .shopify directory for configuration
         mkdir -p .shopify
         
-        # Deploy the theme
+        # Deploy the theme to LIVE (published theme)
         shopify theme push \
           --store="${{ secrets.SHOPIFY_STORE }}.myshopify.com" \
-          --theme-editor-sync \
-          --json \
-          --force
+          --live \
+          --force \
+          --json
           
       env:
         SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_CLI_THEME_TOKEN }}
