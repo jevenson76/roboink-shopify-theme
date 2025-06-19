@@ -1,0 +1,378 @@
+{% comment %}
+  Simple working header for RoboInk theme
+{% endcomment %}
+
+<header class="site-header">
+  <div class="container">
+    <div class="header-content">
+      <!-- Logo/Brand -->
+      <div class="header-brand">
+        <a href="/" class="brand-link">
+          {% if settings.logo %}
+            <img src="{{ settings.logo | image_url: width: 200 }}" 
+                 alt="{{ shop.name }}" 
+                 class="brand-logo">
+          {% else %}
+            <span class="brand-text">{{ shop.name }}</span>
+          {% endif %}
+        </a>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="header-nav">
+        <ul class="nav-menu">
+          <li><a href="/">Home</a></li>
+          <li><a href="/collections/all">All Products</a></li>
+          <li class="dropdown">
+            <a href="/collections">Collections</a>
+            <ul class="dropdown-menu">
+              {% for collection in collections limit: 8 %}
+                {% unless collection.handle == 'frontpage' %}
+                  <li><a href="{{ collection.url }}">{{ collection.title }}</a></li>
+                {% endunless %}
+              {% endfor %}
+            </ul>
+          </li>
+          <li><a href="/pages/about">About</a></li>
+          <li><a href="/pages/contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <!-- Search -->
+        <button class="action-btn search-btn" onclick="toggleSearch()">
+          {% render 'icon-search' %}
+        </button>
+
+        <!-- Account -->
+        <a href="/account" class="action-btn">
+          {% render 'icon-account' %}
+        </a>
+
+        <!-- Cart -->
+        <a href="/cart" class="action-btn cart-btn">
+          {% render 'icon-cart' %}
+          {% if cart.item_count > 0 %}
+            <span class="cart-count">{{ cart.item_count }}</span>
+          {% endif %}
+        </a>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="action-btn mobile-menu-toggle" onclick="toggleMobileMenu()">
+          {% render 'icon-menu' %}
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+      <ul class="mobile-nav">
+        <li><a href="/">Home</a></li>
+        <li><a href="/collections/all">All Products</a></li>
+        <li><a href="/collections">Collections</a></li>
+        <li><a href="/pages/about">About</a></li>
+        <li><a href="/pages/contact">Contact</a></li>
+        <li><a href="/account">Account</a></li>
+      </ul>
+    </div>
+
+    <!-- Search Overlay -->
+    <div class="search-overlay" id="searchOverlay">
+      <div class="search-container">
+        <form action="/search" method="get">
+          <input type="search" 
+                 name="q" 
+                 placeholder="Search products..." 
+                 class="search-input"
+                 autocomplete="off">
+          <button type="submit" class="search-submit">
+            {% render 'icon-search' %}
+          </button>
+        </form>
+        <button class="search-close" onclick="toggleSearch()">
+          {% render 'icon-close' %}
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    background: var(--color-parchment);
+    border-bottom: 2px solid var(--color-navy);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 0;
+  }
+
+  .brand-link {
+    text-decoration: none;
+    color: var(--color-navy);
+  }
+
+  .brand-text {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: bold;
+  }
+
+  .brand-logo {
+    max-height: 60px;
+    width: auto;
+  }
+
+  .nav-menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 2rem;
+  }
+
+  .nav-menu a {
+    color: var(--color-navy);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 0;
+    transition: color 0.3s ease;
+  }
+
+  .nav-menu a:hover {
+    color: var(--color-copper);
+  }
+
+  .dropdown {
+    position: relative;
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 0.25rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    min-width: 200px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    list-style: none;
+    padding: 0.5rem 0;
+    margin: 0;
+  }
+
+  .dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .dropdown-menu a {
+    display: block;
+    padding: 0.5rem 1rem;
+    color: var(--color-navy);
+  }
+
+  .dropdown-menu a:hover {
+    background: var(--color-parchment);
+    color: var(--color-copper);
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .action-btn {
+    background: none;
+    border: none;
+    color: var(--color-navy);
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: color 0.3s ease;
+    text-decoration: none;
+    position: relative;
+  }
+
+  .action-btn:hover {
+    color: var(--color-copper);
+  }
+
+  .cart-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--color-copper);
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: bold;
+  }
+
+  .mobile-menu-toggle {
+    display: none;
+  }
+
+  .mobile-menu {
+    display: none;
+    background: white;
+    border-top: 1px solid var(--color-border);
+    padding: 1rem 0;
+  }
+
+  .mobile-nav {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .mobile-nav a {
+    display: block;
+    padding: 0.75rem 0;
+    color: var(--color-navy);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(26, 26, 46, 0.1);
+  }
+
+  .search-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 200;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .search-container {
+    background: white;
+    border-radius: 0.5rem;
+    padding: 2rem;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+  }
+
+  .search-container form {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .search-input {
+    flex: 1;
+    padding: 1rem;
+    border: 2px solid var(--color-navy);
+    border-radius: 0.25rem;
+    font-size: 1rem;
+  }
+
+  .search-submit {
+    background: var(--color-copper);
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+  }
+
+  .search-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-navy);
+  }
+
+  /* Mobile Styles */
+  @media (max-width: 768px) {
+    .header-nav {
+      display: none;
+    }
+
+    .mobile-menu-toggle {
+      display: block;
+    }
+
+    .mobile-menu.active {
+      display: block;
+    }
+
+    .search-overlay.active {
+      display: flex;
+    }
+  }
+</style>
+
+<script>
+  function toggleMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    menu.classList.toggle('active');
+  }
+
+  function toggleSearch() {
+    const overlay = document.getElementById('searchOverlay');
+    overlay.classList.toggle('active');
+    if (overlay.classList.contains('active')) {
+      overlay.style.display = 'flex';
+      setTimeout(() => overlay.querySelector('.search-input').focus(), 100);
+    } else {
+      overlay.style.display = 'none';
+    }
+  }
+
+  // Close search on escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      const overlay = document.getElementById('searchOverlay');
+      if (overlay.classList.contains('active')) {
+        toggleSearch();
+      }
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Header Simple",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image"
+    },
+    {
+      "type": "range",
+      "id": "logo_max_width",
+      "label": "Logo width",
+      "min": 50,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "default": 150
+    }
+  ]
+}
+{% endschema %}

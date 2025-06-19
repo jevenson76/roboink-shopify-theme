@@ -1,0 +1,75 @@
+name: Deploy Shopify Theme (Fixed)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        
+    - name: Install Shopify CLI
+      run: |
+        npm install -g @shopify/cli @shopify/theme
+        shopify version
+        
+    - name: Validate theme structure
+      run: |
+        echo "🔍 Validating theme structure..."
+        ls -la
+        if [ ! -f "layout/theme.liquid" ]; then
+          echo "❌ Missing layout/theme.liquid"
+          exit 1
+        fi
+        if [ ! -f "config/settings_schema.json" ]; then
+          echo "❌ Missing config/settings_schema.json" 
+          exit 1
+        fi
+        echo "✅ Theme structure valid"
+        echo "📁 Theme files:"
+        find . -name "*.liquid" | head -10
+        
+    - name: Deploy to Shopify
+      run: |
+        echo "🎯 Deploying to Shopify store: ${{ secrets.SHOPIFY_STORE }}"
+        echo "Using token: ${SHOPIFY_CLI_THEME_TOKEN:0:10}..."
+        
+        # Create a .shopify directory for configuration
+        mkdir -p .shopify
+        
+        # Deploy the theme
+        shopify theme push \
+          --store="${{ secrets.SHOPIFY_STORE }}.myshopify.com" \
+          --theme-editor-sync \
+          --json \
+          --force
+          
+      env:
+        SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_CLI_THEME_TOKEN }}
+        
+    - name: Success notification
+      if: success()
+      run: |
+        echo "✅ Theme successfully deployed!"
+        echo "🔗 Store: https://${{ secrets.SHOPIFY_STORE }}.myshopify.com"
+        echo "🎨 Theme should be live at: https://shop.roboinktees.com"
+        
+    - name: Debug information
+      if: failure()
+      run: |
+        echo "❌ Deployment failed"
+        echo "📋 Debug info:"
+        echo "Store: ${{ secrets.SHOPIFY_STORE }}"
+        echo "Token present: ${{ secrets.SHOPIFY_CLI_THEME_TOKEN != '' }}"
+        ls -la
+        find . -name "*.liquid" | wc -l
