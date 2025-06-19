@@ -47,11 +47,10 @@ jobs:
         # Create a .shopify directory for configuration
         mkdir -p .shopify
         
-        # Deploy directly to the live theme using specific theme ID
-        # This bypasses the interactive prompt by targeting a specific theme
+        # Deploy to development theme (no prompts required)
         shopify theme push \
           --store="${{ secrets.SHOPIFY_STORE }}.myshopify.com" \
-          --theme="135642251382" \
+          --development \
           --force \
           --json
           
@@ -61,9 +60,10 @@ jobs:
     - name: Success notification
       if: success()
       run: |
-        echo "✅ Theme successfully deployed!"
+        echo "✅ Theme successfully deployed to development!"
         echo "🔗 Store: https://${{ secrets.SHOPIFY_STORE }}.myshopify.com"
-        echo "🎨 Theme should be live at: https://shop.roboinktees.com"
+        echo "🎨 Development theme deployed successfully"
+        echo "📋 To make this live, publish the development theme via Shopify admin"
         
     - name: Debug information
       if: failure()
