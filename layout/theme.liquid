@@ -12,11 +12,11 @@
   {%- endif -%}
 
   <title>
-    🚀 GITHUB DEPLOYED 🚀 {{ page_title }}
+    🚀 GITHUB AUTO-DEPLOY 🚀 {{ page_title }}
     {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
     {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
     {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
-    <!-- DEBUG: GitHub Actions Test -->
+    <!-- AUTO-DEPLOY: GitHub Actions Working -->
   </title>
 
   {% if page_description %}

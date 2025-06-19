@@ -1,4 +1,4 @@
-name: Deploy Shopify Theme (Fixed)
+name: Deploy Shopify Theme
 
 on:
   push:
