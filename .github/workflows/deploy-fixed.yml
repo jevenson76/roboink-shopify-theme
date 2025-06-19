@@ -47,11 +47,11 @@ jobs:
         # Create a .shopify directory for configuration
         mkdir -p .shopify
         
-        # Deploy the theme to LIVE (published theme) 
-        # Use printf to bypass interactive prompt
-        printf "y\n" | shopify theme push \
+        # Deploy directly to the live theme using specific theme ID
+        # This bypasses the interactive prompt by targeting a specific theme
+        shopify theme push \
           --store="${{ secrets.SHOPIFY_STORE }}.myshopify.com" \
-          --live \
+          --theme="135642251382" \
           --force \
           --json
           
