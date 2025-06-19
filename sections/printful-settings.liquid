@@ -1,0 +1,156 @@
+{% comment %}
+  Printful-specific settings section for theme customizer
+  This section handles POD-specific configurations
+{% endcomment %}
+
+<div class="printful-settings" data-section-id="{{ section.id }}">
+  <!-- This section is for theme settings only, no visible output -->
+</div>
+
+{% schema %}
+{
+  "name": "Printful Settings",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Production Times"
+    },
+    {
+      "type": "range",
+      "id": "production_days_min",
+      "label": "Minimum production days",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "production_days_max",
+      "label": "Maximum production days",
+      "min": 2,
+      "max": 14,
+      "step": 1,
+      "default": 7
+    },
+    {
+      "type": "header",
+      "content": "Shipping Estimates"
+    },
+    {
+      "type": "text",
+      "id": "shipping_standard",
+      "label": "Standard shipping estimate",
+      "default": "3-5 business days"
+    },
+    {
+      "type": "text",
+      "id": "shipping_express",
+      "label": "Express shipping estimate",
+      "default": "1-3 business days"
+    },
+    {
+      "type": "header",
+      "content": "POD Badges"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_made_to_order",
+      "label": "Show 'Made to Order' badge",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_eco_friendly",
+      "label": "Show 'Eco-Friendly' badge",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_local_fulfillment",
+      "label": "Show 'Local Fulfillment' badge",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Product Information"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_size_chart",
+      "label": "Show size charts for apparel",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_care_instructions",
+      "label": "Show care instructions",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_print_details",
+      "label": "Show printing method details",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Order Tracking"
+    },
+    {
+      "type": "text",
+      "id": "tracking_page_url",
+      "label": "Order tracking page URL",
+      "info": "Leave blank to use Shopify default"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_production_status",
+      "label": "Show production status in order emails",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Custom Messages"
+    },
+    {
+      "type": "textarea",
+      "id": "production_message",
+      "label": "Production time message",
+      "default": "Each item is custom printed just for you! Production typically takes 2-7 business days."
+    },
+    {
+      "type": "textarea",
+      "id": "quality_message",
+      "label": "Quality assurance message",
+      "default": "We inspect every item before shipping to ensure it meets our high standards."
+    },
+    {
+      "type": "header",
+      "content": "Returns & Exchanges"
+    },
+    {
+      "type": "textarea",
+      "id": "pod_return_policy",
+      "label": "POD-specific return policy",
+      "default": "Since each item is made-to-order, we only accept returns for defective or damaged items. Please contact us within 7 days of delivery with photos."
+    },
+    {
+      "type": "header",
+      "content": "File Requirements"
+    },
+    {
+      "type": "text",
+      "id": "design_dpi",
+      "label": "Required DPI for designs",
+      "default": "300 DPI"
+    },
+    {
+      "type": "text",
+      "id": "file_formats",
+      "label": "Accepted file formats",
+      "default": "PNG, JPG, PDF"
+    }
+  ]
+}
+{% endschema %}

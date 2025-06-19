@@ -1,0 +1,65 @@
+{
+  "current": {
+    "sections": {
+      "header": {
+        "type": "header",
+        "settings": {
+          "logo": "",
+          "logo_width": 150,
+          "menu": "main-menu",
+          "show_search": true,
+          "show_cart": true,
+          "sticky_header": true
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "settings": {
+          "footer_menu": "footer",
+          "show_newsletter": true,
+          "newsletter_heading": "Join the Steampunk Revolution",
+          "newsletter_text": "Get exclusive designs and special offers",
+          "show_social": true,
+          "copyright_text": "© 2025 RoboInk Tees. All rights reserved."
+        }
+      },
+      "printful-settings": {
+        "type": "printful-settings",
+        "settings": {
+          "production_days_min": 2,
+          "production_days_max": 7,
+          "shipping_standard": "3-5 business days",
+          "shipping_express": "1-3 business days",
+          "show_made_to_order": true,
+          "show_eco_friendly": true,
+          "show_local_fulfillment": true,
+          "show_size_chart": true,
+          "show_care_instructions": true,
+          "show_print_details": true,
+          "tracking_page_url": "",
+          "show_production_status": true,
+          "production_message": "Each item is custom printed just for you! Production typically takes 2-7 business days.",
+          "quality_message": "We inspect every item before shipping to ensure it meets our high standards.",
+          "pod_return_policy": "Since each item is made-to-order, we only accept returns for defective or damaged items. Please contact us within 7 days of delivery with photos.",
+          "design_dpi": "300 DPI",
+          "file_formats": "PNG, JPG, PDF"
+        }
+      }
+    },
+    "content_for_index": []
+  },
+  "presets": {
+    "Default": {
+      "sections": {
+        "header": {
+          "type": "header",
+          "settings": {}
+        },
+        "footer": {
+          "type": "footer",
+          "settings": {}
+        }
+      }
+    }
+  }
+}

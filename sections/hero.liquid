@@ -1,0 +1,241 @@
+{{ 'section-hero.css' | asset_url | stylesheet_tag }}
+
+<div class="hero hero--{{ section.settings.height }} hero--{{ section.settings.content_position }}">
+  {%- if section.settings.image != blank -%}
+    <div class="hero__media">
+      {%- assign image_height = section.settings.image.width | divided_by: section.settings.image.aspect_ratio -%}
+      <img
+        srcset="{%- if section.settings.image.width >= 375 -%}{{ section.settings.image | image_url: width: 375 }} 375w,{%- endif -%}
+          {%- if section.settings.image.width >= 750 -%}{{ section.settings.image | image_url: width: 750 }} 750w,{%- endif -%}
+          {%- if section.settings.image.width >= 1100 -%}{{ section.settings.image | image_url: width: 1100 }} 1100w,{%- endif -%}
+          {%- if section.settings.image.width >= 1500 -%}{{ section.settings.image | image_url: width: 1500 }} 1500w,{%- endif -%}
+          {%- if section.settings.image.width >= 1780 -%}{{ section.settings.image | image_url: width: 1780 }} 1780w,{%- endif -%}
+          {%- if section.settings.image.width >= 2000 -%}{{ section.settings.image | image_url: width: 2000 }} 2000w,{%- endif -%}
+          {%- if section.settings.image.width >= 3840 -%}{{ section.settings.image | image_url: width: 3840 }} 3840w,{%- endif -%}
+          {%- if section.settings.image.width >= 3000 -%}{{ section.settings.image | image_url: width: 3000 }} 3000w,{%- endif -%}
+          {{ section.settings.image | image_url }} {{ section.settings.image.width }}w"
+        sizes="100vw"
+        src="{{ section.settings.image | image_url: width: 1500 }}"
+        loading="eager"
+        alt="{{ section.settings.image.alt | escape }}"
+        width="{{ section.settings.image.width }}"
+        height="{{ image_height }}"
+      >
+    </div>
+  {%- endif -%}
+  
+  <div class="hero__inner page-width">
+    <div class="hero__content">
+      {%- if section.settings.heading != blank -%}
+        <h1 class="hero__heading">
+          {{ section.settings.heading }}
+        </h1>
+      {%- endif -%}
+      
+      {%- if section.settings.subheading != blank -%}
+        <p class="hero__subheading">
+          {{ section.settings.subheading }}
+        </p>
+      {%- endif -%}
+      
+      {%- if section.settings.button_label != blank -%}
+        <a{% if section.settings.button_link != blank %} href="{{ section.settings.button_link }}"{% else %} role="link" aria-disabled="true"{% endif %} class="button button--primary hero__button">
+          {{ section.settings.button_label | escape }}
+        </a>
+      {%- endif -%}
+      
+      {%- if section.settings.secondary_button_label != blank -%}
+        <a{% if section.settings.secondary_button_link != blank %} href="{{ section.settings.secondary_button_link }}"{% else %} role="link" aria-disabled="true"{% endif %} class="button button--secondary hero__button">
+          {{ section.settings.secondary_button_label | escape }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 45rem;
+  }
+  
+  .hero--large {
+    min-height: 75vh;
+  }
+  
+  .hero--medium {
+    min-height: 60vh;
+  }
+  
+  .hero--small {
+    min-height: 45vh;
+  }
+  
+  .hero__media {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
+  
+  .hero__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .hero__inner {
+    z-index: 1;
+    position: relative;
+    text-align: center;
+    padding: 4rem 0;
+  }
+  
+  .hero--left .hero__inner {
+    text-align: left;
+  }
+  
+  .hero--right .hero__inner {
+    text-align: right;
+  }
+  
+  .hero__content {
+    max-width: 60rem;
+    margin: 0 auto;
+  }
+  
+  .hero--left .hero__content {
+    margin: 0;
+  }
+  
+  .hero--right .hero__content {
+    margin: 0 0 0 auto;
+  }
+  
+  .hero__heading {
+    font-size: 4.8rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: var(--color-navy);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .hero__subheading {
+    font-size: 2rem;
+    margin-bottom: 3rem;
+    color: var(--color-copper);
+  }
+  
+  .hero__button {
+    margin: 0 1rem 1rem 0;
+  }
+  
+  @media screen and (max-width: 749px) {
+    .hero__heading {
+      font-size: 3.2rem;
+    }
+    
+    .hero__subheading {
+      font-size: 1.8rem;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Hero",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "height",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "default": "medium",
+      "label": "Section height"
+    },
+    {
+      "type": "select",
+      "id": "content_position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center",
+      "label": "Content position"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Artfully Engineered.",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "default": "Steampunk-inspired designs for the modern Victorian",
+      "label": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "default": "Shop Collections",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_label",
+      "label": "Secondary button label"
+    },
+    {
+      "type": "url",
+      "id": "secondary_button_link",
+      "label": "Secondary button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero"
+    }
+  ]
+}
+{% endschema %}

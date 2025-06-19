@@ -1,0 +1,324 @@
+{{ 'section-product-template.css' | asset_url | stylesheet_tag }}
+
+<div class="product-template page-width">
+  <div class="product-template__inner">
+    <div class="product-template__media">
+      {% if product.featured_media %}
+        <div class="product-media">
+          <div class="product-media__main">
+            <img
+              src="{{ product.featured_media | image_url: width: 1024 }}"
+              alt="{{ product.featured_media.alt | escape }}"
+              loading="eager"
+              width="1024"
+              height="{{ 1024 | divided_by: product.featured_media.aspect_ratio | ceil }}"
+            >
+          </div>
+          
+          {% if product.media.size > 1 %}
+            <div class="product-media__thumbnails">
+              {% for media in product.media %}
+                <button class="product-media__thumbnail{% if forloop.first %} is-active{% endif %}" 
+                  data-media-id="{{ media.id }}"
+                  aria-label="Load media {{ forloop.index }} in gallery view"
+                >
+                  <img
+                    src="{{ media | image_url: width: 100 }}"
+                    alt="{{ media.alt | escape }}"
+                    loading="lazy"
+                    width="100"
+                    height="{{ 100 | divided_by: media.aspect_ratio | ceil }}"
+                  >
+                </button>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+    
+    <div class="product-template__info">
+      <h1 class="product-template__title">{{ product.title }}</h1>
+      
+      {% if product.vendor %}
+        <p class="product-template__vendor">{{ product.vendor }}</p>
+      {% endif %}
+      
+      <div class="product-template__price">
+        <div class="price">
+          {% if product.compare_at_price_max > product.price %}
+            <span class="price__sale">
+              <span class="visually-hidden">{{ 'products.product.price.sale_price' | t }}</span>
+              <span class="price__item price__item--sale">{{ product.price | money }}</span>
+              
+              <span class="visually-hidden">{{ 'products.product.price.regular_price' | t }}</span>
+              <s class="price__item price__item--regular">{{ product.compare_at_price | money }}</s>
+            </span>
+          {% else %}
+            <span class="price__regular">
+              <span class="visually-hidden">{{ 'products.product.price.regular_price' | t }}</span>
+              <span class="price__item price__item--regular">{{ product.price | money }}</span>
+            </span>
+          {% endif %}
+        </div>
+        
+        {% if product.compare_at_price_max > product.price %}
+          <span class="badge badge--sale">{{ 'products.product.on_sale' | t }}</span>
+        {% endif %}
+      </div>
+      
+      {% form 'product', product, class: 'product-form' %}
+        <div class="product-form__error-message-wrapper" role="alert" hidden>
+          <span class="product-form__error-message"></span>
+        </div>
+        
+        {% unless product.has_only_default_variant %}
+          <div class="product-form__input">
+            {% for option in product.options_with_values %}
+              <div class="product-form__option">
+                <label class="form__label" for="Option-{{ section.id }}-{{ forloop.index0 }}">
+                  {{ option.name }}
+                </label>
+                
+                {% if option.name == 'Size' %}
+                  <div class="product-form__size-selector">
+                    {% for value in option.values %}
+                      <input type="radio" 
+                        id="Option-{{ section.id }}-{{ forloop.parentloop.index0 }}-{{ forloop.index0 }}"
+                        name="options[{{ option.name | escape }}]"
+                        value="{{ value | escape }}"
+                        form="product-form-{{ section.id }}"
+                        {% if option.selected_value == value %}checked{% endif %}
+                      >
+                      <label for="Option-{{ section.id }}-{{ forloop.parentloop.index0 }}-{{ forloop.index0 }}">
+                        {{ value }}
+                      </label>
+                    {% endfor %}
+                  </div>
+                {% else %}
+                  <select class="product-form__select" 
+                    id="Option-{{ section.id }}-{{ forloop.index0 }}"
+                    name="options[{{ option.name | escape }}]"
+                    form="product-form-{{ section.id }}"
+                  >
+                    {% for value in option.values %}
+                      <option value="{{ value | escape }}"
+                        {% if option.selected_value == value %}selected="selected"{% endif %}
+                      >
+                        {{ value }}
+                      </option>
+                    {% endfor %}
+                  </select>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+        {% endunless %}
+        
+        <div class="product-form__buttons">
+          <div class="product-form__quantity">
+            <label class="form__label" for="Quantity-{{ section.id }}">
+              {{ 'products.product.quantity.label' | t }}
+            </label>
+            
+            <quantity-input class="quantity">
+              <button class="quantity__button" name="minus" type="button">
+                <span class="visually-hidden">{{ 'products.product.quantity.decrease' | t }}</span>
+                {% render 'icon-minus' %}
+              </button>
+              <input class="quantity__input"
+                type="number"
+                name="quantity"
+                id="Quantity-{{ section.id }}"
+                min="1"
+                value="1"
+                form="product-form-{{ section.id }}"
+              >
+              <button class="quantity__button" name="plus" type="button">
+                <span class="visually-hidden">{{ 'products.product.quantity.increase' | t }}</span>
+                {% render 'icon-plus' %}
+              </button>
+            </quantity-input>
+          </div>
+          
+          <button type="submit" name="add"
+            class="product-form__submit button button--primary button--full-width"
+            {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}
+          >
+            <span>
+              {% if product.selected_or_first_available_variant.available %}
+                {{ 'products.product.add_to_cart' | t }}
+              {% else %}
+                {{ 'products.product.sold_out' | t }}
+              {% endif %}
+            </span>
+          </button>
+        </div>
+      {% endform %}
+      
+      <div class="product-template__description rte">
+        {{ product.description }}
+      </div>
+      
+      {% if section.settings.show_share_buttons %}
+        <div class="product-template__share">
+          <details>
+            <summary class="share-button">
+              {% render 'icon-share' %}
+              {{ 'products.product.share' | t }}
+            </summary>
+            
+            <div class="share-buttons">
+              <a href="https://www.facebook.com/sharer.php?u={{ request.origin | append: product.url }}" 
+                class="share-buttons__button" 
+                target="_blank" 
+                rel="noopener"
+                aria-label="{{ 'general.share.share_on_facebook' | t }}"
+              >
+                {% render 'icon-facebook' %}
+              </a>
+              
+              <a href="https://twitter.com/share?url={{ request.origin | append: product.url }}&text={{ product.title }}" 
+                class="share-buttons__button" 
+                target="_blank" 
+                rel="noopener"
+                aria-label="{{ 'general.share.share_on_twitter' | t }}"
+              >
+                {% render 'icon-twitter' %}
+              </a>
+              
+              <a href="https://pinterest.com/pin/create/button/?url={{ request.origin | append: product.url }}&media={{ product.featured_media | image_url: width: 1024 }}&description={{ product.title }}" 
+                class="share-buttons__button" 
+                target="_blank" 
+                rel="noopener"
+                aria-label="{{ 'general.share.share_on_pinterest' | t }}"
+              >
+                {% render 'icon-pinterest' %}
+              </a>
+            </div>
+          </details>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<style>
+  .product-template {
+    padding: var(--spacing-lg) 0;
+  }
+  
+  .product-template__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+    align-items: start;
+  }
+  
+  .product-template__title {
+    font-size: 3.2rem;
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .product-template__vendor {
+    color: var(--color-copper);
+    font-size: 1.8rem;
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .product-template__price {
+    font-size: 2.4rem;
+    font-weight: bold;
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .product-form__option {
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .product-form__size-selector {
+    display: flex;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+  }
+  
+  .product-form__size-selector input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+  }
+  
+  .product-form__size-selector label {
+    display: inline-block;
+    padding: 0.8rem 1.6rem;
+    border: 2px solid var(--color-navy);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+  
+  .product-form__size-selector input[type="radio"]:checked + label {
+    background-color: var(--color-navy);
+    color: var(--color-parchment);
+  }
+  
+  .product-form__buttons {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .product-form__submit {
+    flex: 1;
+  }
+  
+  .quantity {
+    display: flex;
+    border: 2px solid var(--color-navy);
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+  
+  .quantity__button {
+    background: none;
+    border: none;
+    padding: 0.8rem;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+  }
+  
+  .quantity__button:hover {
+    background-color: var(--color-navy);
+    color: var(--color-parchment);
+  }
+  
+  .quantity__input {
+    border: none;
+    text-align: center;
+    width: 5rem;
+    padding: 0.8rem;
+  }
+  
+  @media screen and (max-width: 749px) {
+    .product-template__inner {
+      grid-template-columns: 1fr;
+    }
+    
+    .product-form__buttons {
+      flex-direction: column;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Product template",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_share_buttons",
+      "label": "Show share buttons",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

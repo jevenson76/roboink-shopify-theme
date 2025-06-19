@@ -1,0 +1,67 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "height": "large",
+        "content_position": "center",
+        "heading": "Artfully Engineered.",
+        "subheading": "Steampunk-inspired designs for the modern Victorian",
+        "button_label": "Shop Collections",
+        "button_link": "/collections",
+        "secondary_button_label": "Custom Designs",
+        "secondary_button_link": "/pages/custom-requests"
+      }
+    },
+    "featured_products": {
+      "type": "featured-products",
+      "settings": {
+        "heading": "Featured Designs",
+        "subheading": "Discover our most popular steampunk creations, ready to wear",
+        "collection": "featured",
+        "products_to_show": 8,
+        "columns_desktop": 4,
+        "show_view_all": true,
+        "show_quick_add": true
+      }
+    },
+    "collections": {
+      "type": "collection-list",
+      "settings": {
+        "heading": "Our Collections",
+        "subheading": "Explore our complete collection of steampunk-inspired designs"
+      }
+    },
+    "product_types": {
+      "type": "product-types",
+      "settings": {
+        "heading": "Product Types",
+        "subheading": "Find the perfect canvas for your steampunk style"
+      }
+    },
+    "custom_section": {
+      "type": "custom-designs",
+      "settings": {
+        "heading": "Need Something Unique?",
+        "subheading": "Commission a one-of-a-kind steampunk design tailored just for you",
+        "button_label": "Request Custom Design",
+        "button_link": "/pages/custom-requests"
+      }
+    },
+    "value_props": {
+      "type": "value-propositions",
+      "settings": {
+        "heading": "Why Choose RoboInkTees?",
+        "subheading": "Quality craftsmanship meets imaginative design"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "featured_products",
+    "collections",
+    "product_types",
+    "custom_section",
+    "value_props"
+  ]
+}

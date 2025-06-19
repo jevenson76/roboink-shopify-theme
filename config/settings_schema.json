@@ -1,0 +1,147 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "RoboInk Steampunk",
+    "theme_version": "1.0.0",
+    "theme_author": "RoboInkTees",
+    "theme_documentation_url": "https://roboink.com/help",
+    "theme_support_url": "https://roboink.com/support"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Primary Colors"
+      },
+      {
+        "type": "color",
+        "id": "color_navy",
+        "label": "Navy (Primary Dark)",
+        "default": "#1a1a2e"
+      },
+      {
+        "type": "color",
+        "id": "color_parchment",
+        "label": "Parchment (Background)",
+        "default": "#f4e8d0"
+      },
+      {
+        "type": "color",
+        "id": "color_copper",
+        "label": "Copper (Accent)",
+        "default": "#b87333"
+      },
+      {
+        "type": "color",
+        "id": "color_brass",
+        "label": "Brass Gold",
+        "default": "#d4a574"
+      },
+      {
+        "type": "color",
+        "id": "color_teal",
+        "label": "Muted Teal",
+        "default": "#5a7a7a"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "font_heading",
+        "label": "Heading font",
+        "default": "roboto_slab_n7"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "label": "Body font",
+        "default": "roboto_n4"
+      }
+    ]
+  },
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo"
+      },
+      {
+        "type": "range",
+        "id": "logo_max_width",
+        "label": "Logo width",
+        "min": 50,
+        "max": 300,
+        "step": 10,
+        "unit": "px",
+        "default": 150
+      },
+      {
+        "type": "checkbox",
+        "id": "show_search",
+        "label": "Show search",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Footer",
+    "settings": [
+      {
+        "type": "text",
+        "id": "footer_copyright",
+        "label": "Copyright text",
+        "default": "© 2025 RoboInkTees. All rights reserved."
+      },
+      {
+        "type": "checkbox",
+        "id": "show_newsletter",
+        "label": "Show newsletter signup",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Product cards",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_product_rating",
+        "label": "Show product ratings",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_quick_add",
+        "label": "Show quick add button",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "select",
+        "id": "cart_type",
+        "label": "Cart type",
+        "options": [
+          {
+            "value": "drawer",
+            "label": "Drawer"
+          },
+          {
+            "value": "page",
+            "label": "Page"
+          }
+        ],
+        "default": "drawer"
+      }
+    ]
+  }
+]

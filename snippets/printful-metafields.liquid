@@ -1,0 +1,125 @@
+{% comment %}
+  Printful metafields snippet
+  Handles POD-specific product information
+  
+  Usage:
+  {% render 'printful-metafields', product: product %}
+{% endcomment %}
+
+{%- liquid
+  assign is_printful = false
+  if product.tags contains 'printful'
+    assign is_printful = true
+  endif
+  
+  # Get metafield values or use defaults
+  assign print_method = product.metafields.printful.print_method | default: 'Direct-to-Garment (DTG)'
+  assign base_product = product.metafields.printful.base_product | default: 'Bella + Canvas 3001'
+  assign origin_country = product.metafields.printful.origin | default: 'USA/EU'
+  assign fulfillment_time = product.metafields.printful.fulfillment_time | default: '2-7 business days'
+-%}
+
+{%- if is_printful -%}
+  <div class="printful-product-info">
+    <!-- Print Method -->
+    <div class="info-row">
+      <span class="info-label">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+          <line x1="9" y1="6" x2="15" y2="6"/>
+          <line x1="9" y1="10" x2="15" y2="10"/>
+          <line x1="9" y1="14" x2="11" y2="14"/>
+        </svg>
+        Print Method:
+      </span>
+      <span class="info-value">{{ print_method }}</span>
+    </div>
+
+    <!-- Base Product -->
+    {%- if product.type contains 'Shirt' or product.type contains 'Hoodie' -%}
+      <div class="info-row">
+        <span class="info-label">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20.38 8.57l-1.23 1.85a8 8 0 0 1-6.15 3.58 8 8 0 0 1-6.15-3.58L5.62 8.57A2 2 0 0 1 6 5.67l1.44-.48a16 16 0 0 0 9.12 0L18 5.67a2 2 0 0 1 .38 2.9z"/>
+          </svg>
+          Base Product:
+        </span>
+        <span class="info-value">{{ base_product }}</span>
+      </div>
+    {%- endif -%}
+
+    <!-- Origin -->
+    <div class="info-row">
+      <span class="info-label">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+        Printed & Shipped From:
+      </span>
+      <span class="info-value">{{ origin_country }}</span>
+    </div>
+
+    <!-- Sustainability -->
+    <div class="info-row">
+      <span class="info-label">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+        </svg>
+        Sustainability:
+      </span>
+      <span class="info-value">Made-to-order to reduce waste</span>
+    </div>
+  </div>
+
+  <style>
+    .printful-product-info {
+      background: var(--color-parchment);
+      border: 1px solid var(--color-copper);
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .info-row {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(184, 115, 51, 0.2);
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+    }
+
+    .info-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      color: var(--color-navy);
+      flex: 0 0 200px;
+    }
+
+    .info-label svg {
+      color: var(--color-copper);
+    }
+
+    .info-value {
+      color: var(--color-text);
+    }
+
+    @media (max-width: 768px) {
+      .info-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+
+      .info-label {
+        flex: none;
+      }
+    }
+  </style>
+{%- endif -%}
